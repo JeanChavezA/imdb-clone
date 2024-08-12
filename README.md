@@ -9,6 +9,8 @@ Nix is used for development. Install it by following the instructions on https:/
 You can start a local database with:
 
 ```
+$ nix-shell
+
 $ with-pg-16 psql
 
 -- then try some query
