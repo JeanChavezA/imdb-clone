@@ -1,0 +1,1 @@
+/home/jmoises/.nix-profile/bin/postgres "-D" "/home/jmoises/proyectos/imdb-clone/data"
