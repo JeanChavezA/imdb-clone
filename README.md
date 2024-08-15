@@ -22,10 +22,10 @@ For running the tests use:
 ```
 $ with-pg-16 make installcheck
 ```
-##Configuración del Entorno de Desarrollo con Nix
+## Configuración del Entorno de Desarrollo con Nix
 Este proyecto utiliza Nix para gestionar dependencias. A continuación se explican los pasos para configurar y ejecutar el entorno de desarrollo.
 
-#Cambios realizados en el archivo shell.nix
+## Cambios realizados en el archivo shell.nix
 En la versión original del archivo shell.nix, hubo un problema relacionado con el hash del paquete de Nixpkgs. Para solucionarlo, realicé los siguientes cambios:
 
 Cambio de la URL de Nixpkgs y corrección del hash:
@@ -52,16 +52,16 @@ mkShell {
 
   extensionName = "imdb-clone";
 }
-#Instrucciones para recalcular el hash:
+## Instrucciones para recalcular el hash:
 
-#Si necesitas recalcular el hash en el futuro, puedes usar el siguiente comando:
+## Si necesitas recalcular el hash en el futuro, puedes usar el siguiente comando:
 
 bash
 Copy code
 nix-prefetch-url --unpack https://github.com/NixOS/nixpkgs/archive/refs/tags/23.11.tar.gz
 Este comando descargará el archivo y generará el hash correspondiente, que luego se puede reemplazar en el archivo shell.nix.
 
-#Cómo ejecutar el entorno de desarrollo
+## Cómo ejecutar el entorno de desarrollo
 Una vez que hayas clonado el repositorio y hayas verificado que nix está instalado en tu sistema, sigue estos pasos:
 
 Asegúrate de que estás en el directorio del proyecto:
@@ -69,12 +69,12 @@ Asegúrate de que estás en el directorio del proyecto:
 bash
 Copy code
 cd imdb-clone
-#Ejecuta el siguiente comando para iniciar el entorno de desarrollo con Nix:
+## Ejecuta el siguiente comando para iniciar el entorno de desarrollo con Nix:
 
 bash
 Copy code
 nix-shell
 Esto descargará todas las dependencias y configurará el entorno necesario para el proyecto.
 
-#Una vez dentro del entorno Nix, puedes ejecutar comandos como psql o scripts de base de datos según lo que hayas configurado.
+### Una vez dentro del entorno Nix, puedes ejecutar comandos como psql o scripts de base de datos según lo que hayas configurado.
 
