@@ -11,3 +11,4 @@ data/postmaster.*
 data/
 pg_stat_tmp/
 pg_stat_tmp/
+env/
