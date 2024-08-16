@@ -9,3 +9,4 @@ data/pg_stat_tmp/
 data/postmaster.*
 
 data/
+pg_stat_tmp/
