@@ -2,3 +2,10 @@ results/
 .history
 regression.diffs
 regression.out
+# Ignorar archivos de la base de datos de PostgreSQL
+data/base/
+data/global/
+data/pg_stat_tmp/
+data/postmaster.*
+
+data/
