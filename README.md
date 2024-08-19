@@ -1,80 +1,33 @@
-# IMDB clone
+## IMDB Clone
 
-A clone of [imdb](https://www.imdb.com) as a postgres extension.
+Este es un clon de IMDB construido como una extensión de PostgreSQL.
 
-## Development
+### Descripción del Proyecto
 
-Nix is used for development. Install it by following the instructions on https://nixos.org/download/.
+Este proyecto tiene como objetivo replicar las funcionalidades principales del sitio web IMDB utilizando PostgreSQL para la base de datos. Se ha estructurado de manera modular, permitiendo la creación y gestión de películas, actores, géneros, reseñas, y mucho más.
 
-You can start a local database with:
+### Características Principales
 
-```
-$ nix-shell
+- Gestión de películas, actores, directores y géneros.
+- Sistema de reseñas y calificaciones de usuarios.
+- Relación entre películas y sus géneros, directores y premios.
+- Integración de índices y triggers para optimización de consultas.
 
-$ with-pg-16 psql
+## Requisitos Previos
 
--- then try some query
-postgres=# select * from items;
-```
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-For running the tests use:
+- [Nix](https://nixos.org/download/)
+- PostgreSQL 16
 
-```
-$ with-pg-16 make installcheck
-```
-## Configuración del Entorno de Desarrollo con Nix
-Este proyecto utiliza Nix para gestionar dependencias. A continuación se explican los pasos para configurar y ejecutar el entorno de desarrollo.
+### Estructura del Proyecto
+sql/: Contiene los scripts SQL para la creación de tablas, índices y triggers.
+nix/: Archivos de configuración para gestionar el entorno de desarrollo.
+test/: Scripts y pruebas del sistema.
 
-## Cambios realizados en el archivo shell.nix
-En la versión original del archivo shell.nix, hubo un problema relacionado con el hash del paquete de Nixpkgs. Para solucionarlo, realicé los siguientes cambios:
+### Futuras Mejoras
+Frontend: Se integrará React.js para proporcionar una interfaz de usuario rica.
+API: Desarrollo de una API RESTful con Django Rest Framework para interactuar con la base de datos.
 
-Cambio de la URL de Nixpkgs y corrección del hash:
-
-Se actualizó la URL de Nixpkgs a una versión más estable y se corrigió el hash para que coincida con la descarga correcta.
-El hash fue recalculado utilizando el comando nix-prefetch-url.
-Cambios en shell.nix:
-
-nix
-Copy code
-with import (builtins.fetchTarball {
-  url = "https://github.com/NixOS/nixpkgs/archive/refs/tags/23.11.tar.gz";
-  sha256 = "1ndiv385wlqyb3b18vw13991fzb9wg4cl21wglk89grsfnra41k";
-}) {};
-
-mkShell {
-  buildInputs = [
-    pkgs.postgresql_16
-    pkgs.coreutils  # Herramientas básicas como 'ls', 'rm'
-    pkgs.which      # Incluye el comando 'which'
-    (pkgs.callPackage ./nix/pgExtension.nix { postgresql = pkgs.postgresql_16; })
-    (pkgs.callPackage ./nix/pgScript.nix { postgresql = pkgs.postgresql_16; })
-  ];
-
-  extensionName = "imdb-clone";
-}
-## Instrucciones para recalcular el hash:
-
-## Si necesitas recalcular el hash en el futuro, puedes usar el siguiente comando:
-
-bash
-Copy code
-nix-prefetch-url --unpack https://github.com/NixOS/nixpkgs/archive/refs/tags/23.11.tar.gz
-Este comando descargará el archivo y generará el hash correspondiente, que luego se puede reemplazar en el archivo shell.nix.
-
-## Cómo ejecutar el entorno de desarrollo
-Una vez que hayas clonado el repositorio y hayas verificado que nix está instalado en tu sistema, sigue estos pasos:
-
-Asegúrate de que estás en el directorio del proyecto:
-
-bash
-Copy code
-cd imdb-clone
-## Ejecuta el siguiente comando para iniciar el entorno de desarrollo con Nix:
-
-bash
-Copy code
-nix-shell
-Esto descargará todas las dependencias y configurará el entorno necesario para el proyecto.
-
-### Una vez dentro del entorno Nix, puedes ejecutar comandos como psql o scripts de base de datos según lo que hayas configurado.
-
+### Licencia
+Este proyecto está bajo la licencia MIT.

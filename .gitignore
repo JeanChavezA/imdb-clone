@@ -3,3 +3,7 @@ results/
 regression.diffs
 regression.out
 data/pg_stat_tmp/
+pg_stat_tmp/
+env/
+key
+key.pub
