@@ -1,0 +1,131 @@
+@startuml
+entity movies {
+    *movie_id : SERIAL [PK]
+    title : TEXT
+    release_year : INT
+    rating : NUMERIC(3, 1)
+    description : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+    status : TEXT
+}
+
+entity actors {
+    *actor_id : SERIAL [PK]
+    name : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity roles {
+    *role_id : SERIAL [PK]
+    movie_id : INT [FK]
+    actor_id : INT [FK]
+    role_name : TEXT
+}
+
+entity users {
+    *user_id : SERIAL [PK]
+    username : TEXT [UNIQUE]
+    email : TEXT [UNIQUE]
+    password_hash : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+    status : TEXT
+}
+
+entity reviews {
+    *review_id : SERIAL [PK]
+    user_id : INT [FK]
+    movie_id : INT [FK]
+    rating : NUMERIC(2, 1)
+    review_text : TEXT
+    created_at : TIMESTAMP
+    status : TEXT
+}
+
+entity genres {
+    *genre_id : SERIAL [PK]
+    genre_name : TEXT [UNIQUE]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity movie_genres {
+    *movie_id : INT [FK]
+    *genre_id : INT [FK]
+}
+
+entity directors {
+    *director_id : SERIAL [PK]
+    name : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity movie_directors {
+    *movie_id : INT [FK]
+    *director_id : INT [FK]
+}
+
+entity languages {
+    *language_id : SERIAL [PK]
+    language_name : TEXT [UNIQUE]
+}
+
+entity movie_languages {
+    *movie_id : INT [FK]
+    *language_id : INT [FK]
+}
+
+entity awards {
+    *award_id : SERIAL [PK]
+    award_name : TEXT [UNIQUE]
+}
+
+entity movie_awards {
+    *movie_id : INT [FK]
+    *award_id : INT [FK]
+    year_awarded : INT
+}
+
+entity comments {
+    *comment_id : SERIAL [PK]
+    review_id : INT [FK]
+    user_id : INT [FK]
+    comment_text : TEXT
+    created_at : TIMESTAMP
+}
+
+entity movie_audit {
+    *audit_id : SERIAL [PK]
+    movie_id : INT [FK]
+    old_title : TEXT
+    new_title : TEXT
+    changed_at : TIMESTAMP
+}
+
+entity movie_videos {
+    *video_id : SERIAL [PK]
+    movie_id : INT [FK]
+    video_url : TEXT
+    uploaded_at : TIMESTAMP
+}
+
+movies ||--o{ roles : "has"
+actors ||--o{ roles : "plays"
+movies ||--o{ reviews : "reviewed in"
+users ||--o{ reviews : "writes"
+movies ||--o{ movie_genres : "categorized in"
+genres ||--o{ movie_genres : "belongs to"
+movies ||--o{ movie_directors : "directed by"
+directors ||--o{ movie_directors : "directs"
+movies ||--o{ movie_languages : "available in"
+languages ||--o{ movie_languages : "spoken in"
+movies ||--o{ movie_awards : "won"
+awards ||--o{ movie_awards : "awarded with"
+reviews ||--o{ comments : "commented on"
+users ||--o{ comments : "writes"
+movies ||--o{ movie_videos : "has"
+movies ||--o{ movie_audit : "audited"
+@enduml

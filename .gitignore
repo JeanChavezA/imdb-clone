@@ -2,3 +2,4 @@ results/
 .history
 regression.diffs
 regression.out
+data/pg_stat_tmp/

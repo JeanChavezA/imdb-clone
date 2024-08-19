@@ -52,3 +52,21 @@ CREATE TABLE reviews (
     review_rating NUMERIC(3, 1),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Tabla de directores
+CREATE TABLE IF NOT EXISTS directors (
+    director_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+-- Tabla de premios
+CREATE TABLE IF NOT EXISTS awards (
+    award_id SERIAL PRIMARY KEY,
+    award_name TEXT NOT NULL UNIQUE
+);
+
+-- Tabla de idiomas
+CREATE TABLE IF NOT EXISTS languages (
+    language_id SERIAL PRIMARY KEY,
+    language_name TEXT NOT NULL UNIQUE
+);
