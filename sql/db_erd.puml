@@ -1,18 +1,83 @@
 @startuml
+
+entity users {
+    *user_id : SERIAL [PK]
+    username : TEXT [UNIQUE]
+    password_hash : TEXT
+    email : TEXT [UNIQUE]
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity actors {
+    *actor_id : SERIAL [PK]
+    actor_name : TEXT
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity genres {
+    *genre_id : SERIAL [PK]
+    genre_name : TEXT [UNIQUE]
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
 entity movies {
     *movie_id : SERIAL [PK]
     title : TEXT
     release_year : INT
     rating : NUMERIC(3, 1)
     description : TEXT
+    status : TEXT [DEFAULT: 'active']
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
-    status : TEXT
 }
 
-entity actors {
-    *actor_id : SERIAL [PK]
-    name : TEXT
+entity directors {
+    *director_id : SERIAL [PK]
+    director_name : TEXT
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity awards {
+    *award_id : SERIAL [PK]
+    award_name : TEXT [UNIQUE]
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity languages {
+    *language_id : SERIAL [PK]
+    language_name : TEXT [UNIQUE]
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity reviews {
+    *review_id : SERIAL [PK]
+    movie_id : INT [FK]
+    user_id : INT [FK]
+    review_text : TEXT
+    review_rating : NUMERIC(3, 1)
+    status : TEXT [DEFAULT: 'active']
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity comments {
+    *comment_id : SERIAL [PK]
+    review_id : INT [FK]
+    user_id : INT [FK]
+    comment_text : TEXT
+    status : TEXT [DEFAULT: 'active']
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
 }
@@ -22,31 +87,6 @@ entity roles {
     movie_id : INT [FK]
     actor_id : INT [FK]
     role_name : TEXT
-}
-
-entity users {
-    *user_id : SERIAL [PK]
-    username : TEXT [UNIQUE]
-    email : TEXT [UNIQUE]
-    password_hash : TEXT
-    created_at : TIMESTAMP
-    updated_at : TIMESTAMP
-    status : TEXT
-}
-
-entity reviews {
-    *review_id : SERIAL [PK]
-    user_id : INT [FK]
-    movie_id : INT [FK]
-    rating : NUMERIC(2, 1)
-    review_text : TEXT
-    created_at : TIMESTAMP
-    status : TEXT
-}
-
-entity genres {
-    *genre_id : SERIAL [PK]
-    genre_name : TEXT [UNIQUE]
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
 }
@@ -54,11 +94,6 @@ entity genres {
 entity movie_genres {
     *movie_id : INT [FK]
     *genre_id : INT [FK]
-}
-
-entity directors {
-    *director_id : SERIAL [PK]
-    name : TEXT
     created_at : TIMESTAMP
     updated_at : TIMESTAMP
 }
@@ -66,35 +101,30 @@ entity directors {
 entity movie_directors {
     *movie_id : INT [FK]
     *director_id : INT [FK]
-}
-
-entity languages {
-    *language_id : SERIAL [PK]
-    language_name : TEXT [UNIQUE]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
 }
 
 entity movie_languages {
     *movie_id : INT [FK]
     *language_id : INT [FK]
-}
-
-entity awards {
-    *award_id : SERIAL [PK]
-    award_name : TEXT [UNIQUE]
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
 }
 
 entity movie_awards {
     *movie_id : INT [FK]
     *award_id : INT [FK]
     year_awarded : INT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
 }
 
-entity comments {
-    *comment_id : SERIAL [PK]
-    review_id : INT [FK]
-    user_id : INT [FK]
-    comment_text : TEXT
-    created_at : TIMESTAMP
+entity movie_videos {
+    *video_id : SERIAL [PK]
+    movie_id : INT [FK]
+    video_url : TEXT
+    uploaded_at : TIMESTAMP
 }
 
 entity movie_audit {
@@ -105,27 +135,21 @@ entity movie_audit {
     changed_at : TIMESTAMP
 }
 
-entity movie_videos {
-    *video_id : SERIAL [PK]
-    movie_id : INT [FK]
-    video_url : TEXT
-    uploaded_at : TIMESTAMP
-}
+users ||--o{ reviews : writes
+movies ||--o{ reviews : reviewed in
+reviews ||--o{ comments : commented on
+users ||--o{ comments : writes
+movies ||--o{ roles : has
+actors ||--o{ roles : plays
+movies ||--o{ movie_genres : categorized in
+genres ||--o{ movie_genres : belongs to
+movies ||--o{ movie_directors : directed by
+directors ||--o{ movie_directors : directs
+movies ||--o{ movie_languages : available in
+languages ||--o{ movie_languages : spoken in
+movies ||--o{ movie_awards : won
+awards ||--o{ movie_awards : awarded with
+movies ||--o{ movie_videos : has trailers
+movies ||--o{ movie_audit : audited for changes
 
-movies ||--o{ roles : "has"
-actors ||--o{ roles : "plays"
-movies ||--o{ reviews : "reviewed in"
-users ||--o{ reviews : "writes"
-movies ||--o{ movie_genres : "categorized in"
-genres ||--o{ movie_genres : "belongs to"
-movies ||--o{ movie_directors : "directed by"
-directors ||--o{ movie_directors : "directs"
-movies ||--o{ movie_languages : "available in"
-languages ||--o{ movie_languages : "spoken in"
-movies ||--o{ movie_awards : "won"
-awards ||--o{ movie_awards : "awarded with"
-reviews ||--o{ comments : "commented on"
-users ||--o{ comments : "writes"
-movies ||--o{ movie_videos : "has"
-movies ||--o{ movie_audit : "audited"
 @enduml
